@@ -7,11 +7,14 @@ import { HTTPSTATUS } from "./config/http.config"
 import { errorHandler } from "./middlewares/errorHandler"
 import { asyncHandler } from "./middlewares/asyncHandler"
 import connectDB from "./config/database.config"
+import authRoutes from "./routes/auth.routes"
 
 dotenv.config()
 
 
 const app = express()
+
+app.use(express.json());
 
 const BASE_PATH = ENV.BASE_PATH || "/api"
 
@@ -30,6 +33,8 @@ app.get("/", asyncHandler(async(req: Request, res : Response, next : NextFunctio
     })
 })
 );
+
+app.use(`${BASE_PATH}/auth`, authRoutes);
 
 
 app.use(errorHandler);
